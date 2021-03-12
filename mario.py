@@ -183,6 +183,18 @@ class Game(object):
                 (self.field_rect.left + x * self.GRID_SIZE - 1, self.field_rect.top),
                 (self.field_rect.left + x * self.GRID_SIZE - 1, self.field_rect.bottom - 1))
     
+    def startup(self, current_time, persistant):
+        self.setup_ground()
+        self.background = setup.GFX['level_1']
+        self.back_rect = self.background.get_rect()
+        self.background = pg.transform.scale(self.background,
+                                   (int(self.back_rect.width*c.BACK_SIZE_MULTIPLER),
+                                    int(self.back_rect.height*c.BACK_SIZE_MULTIPLER)))
+        self.mario = mario.Mario()
+        self.setup_mario_location()
+        self.all_sprites = pg.sprite.Group(self.mario)
+        self.camera_adjust = 0
+    
     def draw(self):
         #draw background image
         self.draw_background()
