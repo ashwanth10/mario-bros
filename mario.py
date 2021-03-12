@@ -193,80 +193,38 @@ class Game(object):
 			
         self.tboard.draw()
 		
-	for obj in self.world:
-			obj.draw()
+        for obj in self.world:
+            obj.draw()
             
     def standing(self, keys, current_time):
-        """This function is called if Mario is standing still"""
-
-        self.frame_index = 0
-        self.x_vel = 0
-        self.y_vel = 0
-        self.gravity = c.GRAVITY
-
-        if keys[pg.K_LEFT]:
-            self.facing_right = False
-
-    def standing(self, keys, current_time):
-                self.state = c.WALK
-            elif keys[pg.K_a]:
+            self.facing_right = True
+            self.state = c.WALK
+        elif keys[pg.K_a]:
+            if self.allow_jump:
                 self.state = c.JUMP
                 self.y_vel = self.jump_vel
-            else:
-                self.state = c.STAND
+        else:
+            self.state = c.STAND
 
     def walking(self, keys, current_time):
+        """It changes the frame, checks for holding down the run button,
+        checks for a jump, then adjusts the state if necessary"""
 
-        if keys[pg.K_a]:
-            self.state = c.JUMP
-            self.y_vel = c.JUMP_VEL
+        self.check_to_allow_jump(keys)
 
-
-        if keys[pg.K_LEFT]:
-            self.facing_right = False
-            if self.x_vel > 0:
-                self.frame_index = 5
-                self.x_accel = c.SMALL_TURNAROUND
-            else:
-                self.x_accel = c.SMALL_ACCEL
-
-            if self.x_vel > (self.max_x_vel * -1):
-                self.x_vel -= self.x_accel
-
-        elif keys[pg.K_RIGHT]:
-            self.facing_right = True
-            if self.x_vel < 0:
-                self.frame_index = 5
-                self.x_accel = c.SMALL_TURNAROUND
-            else:
-                self.x_accel = c.SMALL_ACCEL
-
-            if self.x_vel < self.max_x_vel:
-                self.x_vel += self.x_accel
+        if self.frame_index == 0:
+            self.frame_index += 1
+            self.walking_timer = current_time
 
     def jumping(self, keys, current_time):
+        self.allow_jump = False
         self.frame_index = 4
         self.gravity = c.JUMP_GRAVITY
         self.y_vel += self.gravity
-        if self.y_vel >= 0:
-            self.gravity += .4
-            self.state = c.FALL
-
-        if keys[pg.K_LEFT]:
-            self.facing_right = False
-            if self.x_vel > (self.max_x_vel * - 1):
-                self.x_vel -= self.x_accel
-
-        elif keys[pg.K_RIGHT]:
-            self.facing_right = True
-            if self.x_vel < self.max_x_vel:
-                self.x_vel += self.x_accel
-
-
+    
+    def check_to_allow_jump(self, keys):
         if not keys[pg.K_a]:
-            self.gravity = c.GRAVITY
-            self.state = c.FALL
-        
+            self.allow_jump = True        
     def run(self):
         print "Beginning run sequence."
         # The main game loop
