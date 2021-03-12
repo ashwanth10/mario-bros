@@ -302,9 +302,27 @@ class Game(object):
                 self.draw()
             #actually flip Surface buffer
             pygame.display.flip()
+            
+    def setup_enemy(self, x, y, direction, name, setup_frames):
+        self.sprite_sheet = setup.GFX['smb_enemies_sheet']
+        self.frames = []
+        self.frame_index = 0
 
     def quit(self):
         sys.exit()
+     
+
+class Goomba(Enemy):
+
+    def __init__(self, x, y, direction, name):
+        Enemy.__init__(self)
+        self.setup_enemy(x, y, direction, name, self.setup_frames)
+     
+class Koopa(Enemy):
+
+    def __init__(self, x, y, direction, name):
+        Enemy.__init__(self)
+        self.setup_enemy(x, y, direction, name, self.setup_frames)
 
 
 if __name__ == "__main__":
