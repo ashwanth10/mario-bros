@@ -250,9 +250,25 @@ class Game(object):
         self.check_point5 = False
         self.check_point6 = False
     
-    def check_to_allow_jump(self, keys):
-        if not keys[pg.K_a]:
-            self.allow_jump = True        
+    def create_countdown_clock(self):
+        """Creates the count down clock for the level"""
+        self.count_down_images = []
+        self.create_label(self.count_down_images, str(self.time), 645, 50)
+
+
+    def create_label(self, label_list, string, x, y):
+        """Creates a label (WORLD, TIME, MARIO)"""
+        for letter in string:
+            label_list.append(Character(self.image_dict[letter]))
+
+        self.set_label_rects(label_list, x, y)
+
+
+    def set_label_rects(self, label_list, x, y):
+        """Set the location of each individual character"""
+        for i, letter in enumerate(label_list):
+            letter.rect.x = x + ((letter.rect.width + 3) * i)
+            letter.rect.y = y       
     def run(self):
         print "Beginning run sequence."
         # The main game loop
