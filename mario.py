@@ -184,12 +184,21 @@ class Game(object):
                 (self.field_rect.left + x * self.GRID_SIZE - 1, self.field_rect.bottom - 1))
     
     def startup(self, current_time, persistant):
+        self.persistant = persistant
         self.setup_ground()
+        self.setup_pipes()
+        self.setup_steps()
+        self.collide_group = pg.sprite.Group(self.ground_group,
+                                             self.pipe_group,
+                                             self.step_group)
         self.background = setup.GFX['level_1']
         self.back_rect = self.background.get_rect()
+        self.back_rect.x = 0
+        self.back_rect.y = 0
         self.background = pg.transform.scale(self.background,
-                                   (int(self.back_rect.width*c.BACK_SIZE_MULTIPLER),
-                                    int(self.back_rect.height*c.BACK_SIZE_MULTIPLER)))
+                                  (int(self.back_rect.width*c.BACK_SIZE_MULTIPLER),
+                                  int(self.back_rect.height*c.BACK_SIZE_MULTIPLER)))
+
         self.mario = mario.Mario()
         self.setup_mario_location()
         self.all_sprites = pg.sprite.Group(self.mario)
