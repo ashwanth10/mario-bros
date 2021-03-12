@@ -191,8 +191,6 @@ class Game(object):
         self.collide_group = pg.sprite.Group(self.ground_group,
                                              self.pipe_group,
                                              self.step_group)
-        self.background = setup.GFX['level_1']
-        self.back_rect = self.background.get_rect()
         self.back_rect.x = 0
         self.back_rect.y = 0
         self.background = pg.transform.scale(self.background,
@@ -226,6 +224,7 @@ class Game(object):
                 self.y_vel = self.jump_vel
         else:
             self.state = c.STAND
+            
 
     def walking(self, keys, current_time):
         """It changes the frame, checks for holding down the run button,
@@ -242,6 +241,14 @@ class Game(object):
         self.frame_index = 4
         self.gravity = c.JUMP_GRAVITY
         self.y_vel += self.gravity
+    
+    def setup_checkpoints(self):
+        self.check_point1 = False
+        self.check_point2 = False
+        self.check_point3 = False
+        self.check_point4 = False
+        self.check_point5 = False
+        self.check_point6 = False
     
     def check_to_allow_jump(self, keys):
         if not keys[pg.K_a]:
