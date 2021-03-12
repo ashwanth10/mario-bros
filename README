@@ -1,2 +1,13 @@
-A simple game in python using pygame,
-some libraries heavily copied from http://eli.thegreenplace.net/2009/02/13/writing-a-game-in-python-with-pygame-part-iv/
+CONTROLS:
+
+Arrow keys for direction
+
+	'a' for jump
+
+	's' for action (fireball, run)
+
+DEPENDENCIES:
+
+	To install dependencies for Python 2.x:
+
+	pip install -r requirements.txt
